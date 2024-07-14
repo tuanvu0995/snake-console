@@ -13,16 +13,24 @@ function main() {
   let currentScene: GameObject = new MenuScreen(screen);
   currentScene.ready();
 
-  emitter.on("changeScene", (scene: string) => {
-    switch (scene) {
+  emitter.on("changeScene", (params: { scene: string; options?: any }) => {
+    currentScene.destroy();
+
+    switch (params.scene) {
       case "menu":
         currentScene = new MenuScreen(screen);
         break;
       case "game":
-        currentScene = new GameScreen();
+        currentScene = new GameScreen(params.options);
         break;
     }
     currentScene.ready();
+  });
+
+  emitter.on("quit", () => {
+    screen.clear();
+    console.log("Goodbye!");
+    process.exit();
   });
 
   function loop() {

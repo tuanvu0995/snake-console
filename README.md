@@ -6,7 +6,7 @@
 
 ## How to play
 
-- Clone the repository
+Clone the repository
 
 ```bash
 git clone https://github.com/tuanvu0995/snake-console.git
@@ -17,7 +17,7 @@ npm run start
 
 ## Installation
 
-Note: Currently, the game is not published to npm. You can install it by cloning the repository and running the game as mentioned above.
+Note: Currently, the game is not published to npm. You can run it by cloning the repository and running the game as mentioned above.
 ```bash
 npm i -g snake-console
 ```

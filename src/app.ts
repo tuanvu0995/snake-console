@@ -1,9 +1,8 @@
 import { emitter } from "./setup";
-import { GameObject } from "./gameobject";
 import { MainScreen } from "./scenes/main_screen";
 import { Screen } from "./screen";
 import { GameScreen } from "./scenes/game_screen";
-import { GameOptions } from "./types";
+import { GameOptions, GameObject } from "./types";
 import { CustomScreen } from "./scenes/custom_screen";
 import { LevelScreen } from "./scenes/level_screen";
 import Vector2 from "./vector2";

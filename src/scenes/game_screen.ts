@@ -4,7 +4,7 @@ import { Snake } from "./snake"
 import { World } from "./world"
 import { GameUI } from "./game_ui"
 import { Food } from "./food"
-import { GameObject } from "../gameobject"
+import { GameObject } from "../types"
 import { GameLevel, GameOptions } from "../types"
 
 export class GameScreen extends GameObject {
@@ -108,17 +108,5 @@ export class GameScreen extends GameObject {
   public win() {
     this.isStarted = false
     this.isWin = true
-  }
-
-  public restart() {
-    this.isGameOver = false
-    this.isStarted = false
-    this.isWin = false
-    this.score = 0
-    this.time = 0
-    this.scenes.forEach((obj) => obj.destroy && obj.destroy())
-    this.scenes.forEach((obj) => obj.ready())
-
-    this.start()
   }
 }

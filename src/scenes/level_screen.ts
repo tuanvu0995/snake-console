@@ -1,5 +1,5 @@
 import chalk from "chalk"
-import { GameObject } from "../gameobject"
+import { GameObject } from "../types"
 import { Screen } from "../screen"
 import { emitter } from "../setup"
 import { KEY_MAP, LEVELS, SCREEN_SIZE } from "../constants"

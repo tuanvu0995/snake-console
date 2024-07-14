@@ -20,6 +20,10 @@ export class GameUI extends GameObject {
     emitter.on("keypress", this.handleKeyPress)
   }
 
+  public destroy(): void {
+    emitter.removeListener("keypress", this.handleKeyPress)
+  }
+
   private handleKeyPress = (key: string) => {
     if (this.game.isStarted) return
 
@@ -32,17 +36,12 @@ export class GameUI extends GameObject {
         break
       case KEY_MAP.ENTER:
         if (this.selected === 0) {
-          this.game.restart()
-          this.selected = 0
+          emitter.emit("changeScene", "game")
         } else {
           emitter.emit("changeScene", "menu")
         }
         break
     }
-  }
-
-  public destroy(): void {
-    emitter.removeListener("keypress", this.handleKeyPress)
   }
 
   public update(): void {}

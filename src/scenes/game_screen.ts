@@ -59,8 +59,6 @@ export class GameScreen extends GameObject {
   public update() {
     if (!this.isStarted) return
     this.scenes.forEach((scene) => scene.update())
-    this.screen.clear()
-    this.scenes.forEach((scene) => scene.draw())
   }
 
   public draw() {
@@ -118,6 +116,7 @@ export class GameScreen extends GameObject {
     this.isWin = false
     this.score = 0
     this.time = 0
+    this.scenes.forEach((obj) => obj.destroy && obj.destroy())
     this.scenes.forEach((obj) => obj.ready())
 
     this.start()

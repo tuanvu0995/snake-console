@@ -57,15 +57,20 @@ function main() {
   });
 
   function loop() {
-    currentScene.update();
-    screen.clear();
-    currentScene.draw();
+    try {
+      currentScene.update();
+      screen.clear();
+      currentScene.draw();
+      } catch (error) {
+      console.error(error);
+      process.exit(1);
+    }
     setTimeout(loop, 1000 / FRAME_RATE);
   }
   loop();
 
   process.on("exit", () => {
-    screen.clear();
+    // screen.clear();
     process.stdin.setRawMode(false);
   });
 }

@@ -3,12 +3,11 @@ import { GameObject } from "../gameobject"
 import { GameScreen } from "./game_screen"
 import { Screen } from "../screen"
 
-export class World extends GameObject {
+export class World implements GameObject {
   constructor(
     private game: GameScreen,
     private screen: Screen
   ) {
-    super()
   }
 
   public ready(): void {}
@@ -38,4 +37,6 @@ export class World extends GameObject {
     }
     this.screen.draw(blocks.join("\n"))
   }
+
+  public destroy(): void {}
 }

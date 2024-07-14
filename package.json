@@ -1,15 +1,19 @@
 {
   "name": "snake-game",
+  "description": "A simple snake game",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "bin/app.js",
+  "bin": {
+    "snake-console": "bin/app.js"
+  },
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
-    "start": "tsc && node dist/app.js",
-    "format": "prettier --write src/**/*.ts"
+    "start": "tsc && node bin/app.js",
+    "format": "prettier --write src/**/*.ts",
+    "build": "tsc"
   },
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "author": "Tim Lai <tuanvu0995@gmail.com>",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.14.10",
     "prettier": "3.3.3",
@@ -20,4 +24,3 @@
     "chalk": "^4.1.2"
   }
 }
-

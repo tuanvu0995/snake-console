@@ -1,9 +1,7 @@
-import "./setup";
-
+import { emitter } from "./setup";
 import { GameObject } from "./gameobject";
 import { MenuScreen } from "./scenes/menu_screen";
 import { Screen } from "./screen";
-import { emitter } from "./setup";
 import { GameScreen } from "./scenes/game_screen";
 
 const FRAME_RATE = 30;
@@ -40,6 +38,11 @@ function main() {
     setTimeout(loop, 1000 / FRAME_RATE);
   }
   loop();
+
+  process.on("exit", () => {
+    screen.clear();
+    process.stdin.setRawMode(false);
+  });
 }
 
 main();

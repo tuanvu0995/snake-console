@@ -1,25 +1,50 @@
 import { emitter } from "./setup";
 import { GameObject } from "./gameobject";
-import { MenuScreen } from "./scenes/menu_screen";
+import { MainScreen } from "./scenes/main_screen";
 import { Screen } from "./screen";
 import { GameScreen } from "./scenes/game_screen";
+import { GameOptions } from "./types";
+import { CustomScreen } from "./scenes/custom_screen";
+import { LevelScreen } from "./scenes/level_screen";
+import Vector2 from "./vector2";
 
-const FRAME_RATE = 30;
+const FRAME_RATE = 24;
 const screen = new Screen();
 
+
 function main() {
-  let currentScene: GameObject = new MenuScreen(screen);
+  let currentScene: GameObject = new MainScreen(screen);
   currentScene.ready();
 
-  emitter.on("changeScene", (params: { scene: string; options?: any }) => {
+  const gameOptions: GameOptions = {
+    level: "normal",
+    size: new Vector2(21, 21),
+  };
+
+  emitter.on('changeOptions', (options: GameOptions) => {
+    if (options.level) {
+      gameOptions.level = options.level;
+    }
+    if (options.size) {
+      gameOptions.size = options.size;
+    }
+  });
+
+  emitter.on("changeScene", (scene: string) => {
     currentScene.destroy();
 
-    switch (params.scene) {
+    switch (scene) {
       case "menu":
-        currentScene = new MenuScreen(screen);
+        currentScene = new MainScreen(screen);
+        break;
+      case "level":
+        currentScene = new LevelScreen(screen);
+        break;
+      case "custom":
+        currentScene = new CustomScreen(screen);
         break;
       case "game":
-        currentScene = new GameScreen(params.options);
+        currentScene = new GameScreen(screen, gameOptions);
         break;
     }
     currentScene.ready();

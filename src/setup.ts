@@ -1,5 +1,5 @@
 import readLine from "readline";
-import { EventEmitter } from "events";
+import { EventEmitter } from "node:events";
 
 // Enable keypress events
 readLine.emitKeypressEvents(process.stdin);

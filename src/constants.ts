@@ -1,8 +1,8 @@
 export const KEY_MAP = {
-  UP: "w",
-  DOWN: "s",
-  LEFT: "a",
-  RIGHT: "d",
+  UP: "up",
+  DOWN: "down",
+  LEFT: "left",
+  RIGHT: 'right',
   ENTER: "return",
   ESC: "escape",
   BACKSPACE: "backspace",
@@ -14,3 +14,8 @@ export const MAP_SIZE = {
   min: 10,
   max: 32,
 };
+
+export const SCREEN_SIZE = {
+  width: 30,
+  height: 12,
+}

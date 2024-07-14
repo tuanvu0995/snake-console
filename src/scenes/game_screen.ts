@@ -5,16 +5,9 @@ import { World } from "./world"
 import { GameUI } from "./game_ui"
 import { Food } from "./food"
 import { GameObject } from "../gameobject"
-
-type GameLevel = "easy" | "medium" | "hard" | "super" | "ghost"
-
-type GameOptions = {
-  size?: Vector2
-  level?: GameLevel
-}
+import { GameLevel, GameOptions } from "../types"
 
 export class GameScreen extends GameObject {
-  private screen = new Screen()
   public size: Vector2 = new Vector2(21, 21)
 
   public maxScore = 0
@@ -36,7 +29,10 @@ export class GameScreen extends GameObject {
   public isWin = false
   public isGameOver = false
 
-  constructor(options?: GameOptions) {
+  constructor(
+    private screen: Screen,
+    options?: GameOptions
+  ) {
     super()
     if (options?.level) {
       this.level = options.level
@@ -47,11 +43,11 @@ export class GameScreen extends GameObject {
   }
 
   get height() {
-    return Math.min(this.screen.rows, this.size.y)
+    return Math.min(this.screen.rows, this.size.y + 2)
   }
 
   get width() {
-    return Math.min(this.screen.cols, this.size.x)
+    return Math.min(this.screen.cols, this.size.x + 2)
   }
 
   public ready() {
@@ -75,16 +71,16 @@ export class GameScreen extends GameObject {
     this.scenes.forEach((scene) => scene.destroy && scene.destroy())
   }
 
-  private countTime() {
+  private startTimer() {
     if (!this.isStarted) return
     this.time++
-    setTimeout(this.countTime.bind(this), 1000)
+    setTimeout(this.startTimer.bind(this), 1000)
   }
 
   get moveSpeed() {
     switch (this.level) {
-      case "medium":
-        return 15
+      case "normal":
+        return 8
       case "hard":
         return 5
       case "super":
@@ -93,7 +89,7 @@ export class GameScreen extends GameObject {
         return 1
       case "easy":
       default:
-        return 30
+        return 12
     }
   }
 
@@ -103,7 +99,7 @@ export class GameScreen extends GameObject {
 
   public start() {
     this.isStarted = true
-    this.countTime()
+    this.startTimer()
   }
 
   public gameOver() {

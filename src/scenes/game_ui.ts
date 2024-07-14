@@ -6,7 +6,7 @@ import { emitter } from "../setup"
 import { KEY_MAP } from "../constants"
 
 export class GameUI extends GameObject {
-  private options = ["Play again", "Main menu"]
+  private options = ["Play again", "Back"]
   private selected = 0
 
   constructor(
@@ -17,10 +17,12 @@ export class GameUI extends GameObject {
   }
 
   public ready(): void {
-    emitter.on("keypress", this.handleKeyPress.bind(this))
+    emitter.on("keypress", this.handleKeyPress)
   }
 
-  private handleKeyPress(key: string): void {
+  private handleKeyPress = (key: string) => {
+    if (this.game.isStarted) return
+
     switch (key) {
       case KEY_MAP.UP:
         this.selected = Math.max(0, this.selected - 1)
@@ -33,19 +35,17 @@ export class GameUI extends GameObject {
           this.game.restart()
           this.selected = 0
         } else {
-          emitter.emit("changeScene", {
-            scene: "menu",
-          })
+          emitter.emit("changeScene", "menu")
         }
         break
     }
   }
 
-  public update(): void {}
-
   public destroy(): void {
     emitter.removeListener("keypress", this.handleKeyPress)
   }
+
+  public update(): void {}
 
   public draw(): void {
     if (this.game.isGameOver) {
@@ -81,7 +81,7 @@ export class GameUI extends GameObject {
     }
   }
 
-  public drawGameOver(): void {
+  private drawGameOver(): void {
     // clear background
     for (let y = 0; y < this.game.height; y++) {
       this.screen
@@ -111,14 +111,14 @@ export class GameUI extends GameObject {
       )
   }
 
-  drawLevel() {
+  private drawLevel() {
     // draw in the left corner
     this.screen
       .cursorTo(0, this.game.height)
       .draw(chalk.yellow(`Level: ${this.game.level}`))
   }
 
-  drawTime() {
+  private drawTime() {
     // draw in the right corner
     // format 0 to 00:00
     this.screen.cursorTo(this.game.width * 2 - 11, this.game.height).draw(

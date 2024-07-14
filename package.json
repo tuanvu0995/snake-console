@@ -1,6 +1,6 @@
 {
   "name": "snake-game",
-  "description": "A simple snake game",
+  "description": "A simple snake game in the console",
   "version": "1.0.0",
   "main": "bin/app.js",
   "bin": {

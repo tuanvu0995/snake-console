@@ -13,17 +13,28 @@ npm install
 npm run start
 ```
 
+## Installation
+
+Note: Currently, the game is not published to npm. You can install it by cloning the repository and running the game as mentioned above.
+```bash
+npm i -g snake-console
+```
+
+## Gameplay
+
 - Use arrow keys to control the snake
 - Eat the food to grow the snake
 - Avoid hitting the wall or the snake itself
 
 ## Development
 
-- Run the following command to start the development server
+Run the following command to start the development server
 
 ```bash
 npm run dev
 ```
+
+The game will automatically restart when you make changes to the code.
 
 ## License
 MIT

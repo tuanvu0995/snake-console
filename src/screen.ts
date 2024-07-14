@@ -1,6 +1,4 @@
 export class Screen {
-  private output = process.stdout;
-
   get rows() {
     return process.stdout.rows;
   }
@@ -10,17 +8,17 @@ export class Screen {
   }
 
   clear() {
-    this.output.write("\x1Bc");
+    process.stdout.write("\x1Bc");
     return this;
   }
 
   draw(text: string) {
-    this.output.write(text);
+    process.stdout.write(text);
     return this;
   }
 
   cursorTo(x: number, y: number) {
-    this.output.cursorTo(x, y);
+    process.stdout.cursorTo(x, y);
     return this;
   }
 }

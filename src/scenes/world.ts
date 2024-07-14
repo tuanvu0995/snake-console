@@ -7,8 +7,7 @@ export class World implements GameObject {
   constructor(
     private game: GameScreen,
     private screen: Screen
-  ) {
-  }
+  ) {}
 
   public ready(): void {}
   public update(): void {}

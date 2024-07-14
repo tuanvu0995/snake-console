@@ -19,13 +19,18 @@ export class Snake extends GameObject {
     super()
   }
 
-  ready(): void {
+  public ready(): void {
     this.body = [new Vector2(1, 1), new Vector2(2, 1), new Vector2(3, 1)]
-
-    emitter.on("keypress", this.handleKeyPress.bind(this))
+    emitter.on("keypress", this.handleKeyPress)
   }
 
-  private handleKeyPress(key: string): void {
+  public destroy(): void {
+    emitter.removeListener("keypress", this.handleKeyPress)
+  }
+
+  private handleKeyPress = (key: string) => {
+    if (!this.game.isStarted) return
+
     switch (key) {
       case KEY_MAP.UP:
         this.changeDirection(Vector2.UP)
@@ -65,10 +70,6 @@ export class Snake extends GameObject {
     this.frameCount = 0
   }
 
-  public destroy(): void {
-    emitter.removeListener("keypress", this.handleKeyPress)
-  }
-
   private move() {
     const newHead = new Vector2(this.head.x, this.head.y)
     newHead.move(this.direction.x, this.direction.y)
@@ -93,8 +94,10 @@ export class Snake extends GameObject {
       const pos = this.body[i]
       let point = chalk.black("  ")
 
-      this.screen.cursorTo(pos.x * 2, pos.y).draw(point)
-      this.screen.cursorTo(this.game.width, this.game.height)
+      this.screen
+        .cursorTo(pos.x * 2, pos.y)
+        .draw(point)
+        .cursorTo(this.game.width, this.game.height)
     }
   }
 

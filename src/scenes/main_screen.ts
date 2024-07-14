@@ -75,7 +75,7 @@ export class MainScreen extends GameObject {
 
     this.screen
       .cursorTo(1, this.height - 3)
-      .draw(chalk.bgWhiteBright.black("Use w,s,a,d to move,"))
+      .draw(chalk.bgWhiteBright.black("Use arrow keys to move,"))
     this.screen
       .cursorTo(1, this.height - 2)
       .draw(chalk.bgWhiteBright.black("Enter to select"))

@@ -2,6 +2,8 @@
 
 > A simple snake game in the console using node.js
 
+<img src="./img/demo.gif" width="400px">
+
 ## How to play
 
 - Clone the repository

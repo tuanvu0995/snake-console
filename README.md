@@ -24,9 +24,12 @@ npm i -g snake-console
 
 ## Gameplay
 
+- Challenge yourself with the "ghost" level of the game.
+
 - Use arrow keys to control the snake
 - Eat the food to grow the snake
 - Avoid hitting the wall or the snake itself
+
 
 ## Development
 

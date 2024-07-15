@@ -35,3 +35,5 @@ export type PathNode = {
   pos: Vector2
   parent: PathNode | null
 }
+
+export type SnakeStartPos = "topright" | "bottomright" | "bottomleft"

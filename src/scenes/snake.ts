@@ -18,6 +18,8 @@ export class Snake extends GameObject {
 
   protected frameCount = 0
 
+  protected snakes: Snake[] = []
+
   constructor(
     protected game: GameScreen,
     protected screen: Screen
@@ -26,6 +28,7 @@ export class Snake extends GameObject {
   }
 
   public ready(): void {
+    this.snakes = this.game.snakes.filter((s) => s.id !== this.id)
     this.body = [new Vector2(1, 1), new Vector2(2, 1), new Vector2(3, 1)]
     emitter.on("keypress", this.handleKeyPress)
   }
@@ -90,10 +93,6 @@ export class Snake extends GameObject {
     this.game.gameOver()
   }
 
-  public collidesWith(pos: Vector2) {
-    return this.body.some((b) => b.collides(pos))
-  }
-
   public changeDirection(direction: Vector2) {
     // the snake can't move back
     if (
@@ -129,23 +128,30 @@ export class Snake extends GameObject {
     this.body.push(newHead)
   }
 
+  public collidesWith(pos: Vector2) {
+    return this.body.some((segment) => segment.collides(pos))
+  }
+
   protected isCollideWithFood(): boolean {
-    return this.head.collides(this.game.food.position)
+    const forward = this.head.forward(this.direction)
+    return forward.collides(this.game.food.position)
   }
 
-  protected isCollideWithOthers(forward?: Vector2): boolean {
-    const _forward = forward ? forward : this.head.forward(this.direction)
-    const snakes = this.game.snakes.filter((s) => s.id !== this.id && !s.isDead)
-    return snakes.some((snake) => snake.collidesWith(_forward))
+  protected isCollideWithOthers(): boolean {
+    const forward = this.head.forward(this.direction)
+    const snakes = this.snakes.filter((s) => !s.isDead)
+    return snakes.some(
+      (snake) => snake.collidesWith(this.head) || snake.collidesWith(forward)
+    )
   }
 
-  protected isCollideWithWall(forward?: Vector2): boolean {
-    const _forward = forward ? forward : this.head.forward(this.direction)
+  protected isCollideWithWall(): boolean {
+    const forward = this.head.forward(this.direction)
     return (
-      _forward.x === 0 ||
-      _forward.x === this.game.width - 1 ||
-      _forward.y === 0 ||
-      _forward.y === this.game.height - 1
+      forward.x === 0 ||
+      forward.x === this.game.width - 1 ||
+      forward.y === 0 ||
+      forward.y === this.game.height - 1
     )
   }
 

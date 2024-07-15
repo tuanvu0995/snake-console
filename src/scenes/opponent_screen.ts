@@ -60,7 +60,7 @@ export class OpponentScreen extends GameObject {
 
     this.screen
       .cursorTo(2, 1)
-      .draw(chalk.bgWhiteBright.black("Select Number of Opponents"))
+      .draw(chalk.bgWhiteBright.black("Select Number of Snake"))
 
     for (let i = 0; i < this.options.length; i++) {
       const level = this.options[i]

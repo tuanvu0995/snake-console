@@ -3,29 +3,48 @@ import { Screen } from "../screen"
 import Vector2 from "../vector2"
 import { Snake } from "./snake"
 import chalk from "chalk"
-import { PathNode } from "../types"
+import { PathNode, SnakeStartPos } from "../types"
 
 export class SnakeOpponent extends Snake {
-  public body: Vector2[] = []
-  public direction: Vector2 = Vector2.LEFT
-
   public color = chalk.bgMagenta.black
 
   constructor(
     protected game: GameScreen,
     protected screen: Screen,
-    protected startPostion: Vector2
+    protected pos: SnakeStartPos
   ) {
     super(game, screen)
   }
 
   public ready(): void {
+    this.snakes = this.game.snakes.filter((s) => s.id !== this.id)
     // init from start position and direction
-    this.body = [
-      new Vector2(this.startPostion.x, this.startPostion.y),
-      this.startPostion.add(this.direction),
-      this.startPostion.add(this.direction).add(this.direction),
-    ]
+    switch (this.pos) {
+      case "topright":
+        this.body = [
+          new Vector2(this.game.width - 2, 1),
+          new Vector2(this.game.width - 2, 2),
+          new Vector2(this.game.width - 2, 3),
+        ]
+        this.direction = Vector2.DOWN
+        break
+      case "bottomright":
+        this.body = [
+          new Vector2(this.game.width - 2, this.game.height - 2),
+          new Vector2(this.game.width - 3, this.game.height - 2),
+          new Vector2(this.game.width - 4, this.game.height - 2),
+        ]
+        this.direction = Vector2.LEFT
+        break
+      case "bottomleft":
+      default:
+        this.body = [
+          new Vector2(1, this.game.height - 2),
+          new Vector2(1, this.game.height - 3),
+          new Vector2(1, this.game.height - 4),
+        ]
+        this.direction = Vector2.UP
+    }
   }
 
   protected dead() {
@@ -41,18 +60,19 @@ export class SnakeOpponent extends Snake {
   }
 
   public moveToFood(food: Vector2) {
-    const distance = this.head.distance(food);
-    if (distance < 1) return;
-  
-    const path = this.findPathToFood(food);
-    if (path.length < 2) return;
-  
-    const next = path[1]; // Phần tử thứ hai là bước tiếp theo
-  
-    const direction = next.sub(this.head);
-    this.direction = direction;
+    const distance = this.head.distance(food)
+
+    const target: Vector2 = food
+    if (distance < 1) return
+
+    const path = this.findPathToFood(target)
+    if (path.length < 2) return
+
+    const next = path[1] // Phần tử thứ hai là bước tiếp theo
+
+    const direction = next.sub(this.head)
+    this.direction = direction
   }
-  
 
   private findPathToFood(food: Vector2): Vector2[] {
     const path: Vector2[] = []
@@ -87,7 +107,18 @@ export class SnakeOpponent extends Snake {
         const nextPos = current.pos.forward(dir)
         const nextPosStr = nextPos.toString()
 
-        if (this.collidesWith(nextPos) || visited.has(nextPosStr)) {
+        if (
+          nextPos.x < 1 ||
+          nextPos.x >= this.game.width - 1 ||
+          nextPos.y < 1 ||
+          nextPos.y >= this.game.height - 1 ||
+          this.collidesWith(nextPos) ||
+          this.body.some((segment) => segment.collides(nextPos)) || // Check collision with this snake's body
+          this.snakes.some((snake) =>
+            snake.body.some((segment) => segment.collides(nextPos))
+          ) || // Check collision with other snakes' bodies
+          visited.has(nextPosStr)
+        ) {
           continue
         }
 
@@ -99,5 +130,18 @@ export class SnakeOpponent extends Snake {
     }
 
     return path
+  }
+
+  protected isCollideWithFood(): boolean {
+    return this.head.collides(this.game.food.position)
+  }
+
+  protected isCollideWithWall(): boolean {
+    return (
+      this.head.x === 0 ||
+      this.head.x === this.game.width - 1 ||
+      this.head.y === 0 ||
+      this.head.y === this.game.height - 1
+    )
   }
 }

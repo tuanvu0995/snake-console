@@ -27,6 +27,5 @@ export class Screen {
   flush() {
     process.stdout.write(this.buffer)
     this.buffer = "" // Reset buffer after flushing
-    return this
   }
 }

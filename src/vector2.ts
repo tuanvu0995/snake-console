@@ -32,12 +32,12 @@ export class Vector2 {
     return Math.abs(this.x - other.x) + Math.abs(this.y - other.y)
   }
 
-  leftOf(other: Vector2): Vector2 {
-    return new Vector2(this.x - other.x, this.y - other.y)
+  turnLeft() {
+    this.x = -this.y
   }
 
-  rightOf(other: Vector2): Vector2 {
-    return new Vector2(this.x + other.x, this.y + other.y)
+  turnRight() {
+    this.y = -this.x
   }
 
   toString() {

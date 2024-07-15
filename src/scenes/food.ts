@@ -10,19 +10,18 @@ export class Food extends GameObject {
 
   constructor(
     protected game: GameScreen,
-    protected screen: Screen,
-    protected snakes: Snake[]
+    protected screen: Screen
   ) {
     super()
+  }
 
+  public ready(): void {
     // center of the screen
     this.position = new Vector2(
       Math.floor(this.game.size.x / 2),
       Math.floor(this.game.size.y / 2)
     )
-  }
 
-  public ready(): void {
     this.spawn()
   }
 
@@ -50,7 +49,7 @@ export class Food extends GameObject {
     for (let x = 1; x < this.game.width - 1; x++) {
       for (let y = 1; y < this.game.height - 1; y++) {
         const vec = new Vector2(x, y)
-        for (const snake of this.snakes) {
+        for (const snake of this.game.snakes) {
           if (!snake.collidesWith(vec)) {
             positions.push(vec)
           }

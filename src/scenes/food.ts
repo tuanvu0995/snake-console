@@ -9,11 +9,17 @@ export class Food extends GameObject {
   public position: Vector2 = new Vector2(0, 0)
 
   constructor(
-    private game: GameScreen,
-    private screen: Screen,
-    private snake: Snake
+    protected game: GameScreen,
+    protected screen: Screen,
+    protected snakes: Snake[]
   ) {
     super()
+
+    // center of the screen
+    this.position = new Vector2(
+      Math.floor(this.game.size.x / 2),
+      Math.floor(this.game.size.y / 2)
+    )
   }
 
   public ready(): void {
@@ -32,19 +38,22 @@ export class Food extends GameObject {
   public destroy(): void {}
 
   public spawn() {
+    const emptyPositions = this.getEmptyPositions()
+    if (emptyPositions.length === 0) return
     // spawn food in random position and make sure it's not on the snake
-    const emptyPositions = this.getEmtpyPositions()
     const randomIndex = Math.floor(Math.random() * emptyPositions.length)
     this.position = emptyPositions[randomIndex]
   }
 
-  private getEmtpyPositions(): Vector2[] {
+  private getEmptyPositions(): Vector2[] {
     const positions: Vector2[] = []
     for (let x = 1; x < this.game.width - 1; x++) {
       for (let y = 1; y < this.game.height - 1; y++) {
         const vec = new Vector2(x, y)
-        if (!this.snake.body.some((b) => b.collides(vec))) {
-          positions.push(vec)
+        for (const snake of this.snakes) {
+          if (!snake.collidesWith(vec)) {
+            positions.push(vec)
+          }
         }
       }
     }

@@ -6,6 +6,7 @@ import { GameOptions, GameObject } from "./types"
 import { CustomScreen } from "./scenes/custom_screen"
 import { LevelScreen } from "./scenes/level_screen"
 import Vector2 from "./vector2"
+import { OpponentScreen } from "./scenes/opponent_screen"
 
 const FRAME_RATE = 24
 const FRAME_DURATION = 1000 / FRAME_RATE
@@ -18,6 +19,7 @@ function main() {
   const gameOptions: GameOptions = {
     level: "normal",
     size: new Vector2(21, 21),
+    opponentCount: 1,
   }
 
   emitter.on("changeOptions", (options: GameOptions) => {
@@ -26,6 +28,9 @@ function main() {
     }
     if (options.size) {
       gameOptions.size = options.size
+    }
+    if (options) {
+      gameOptions.opponentCount = options.opponentCount
     }
   })
 
@@ -41,6 +46,9 @@ function main() {
         break
       case "custom":
         currentScene = new CustomScreen(screen)
+        break
+      case "opponent":
+        currentScene = new OpponentScreen(screen)
         break
       case "game":
         currentScene = new GameScreen(screen, gameOptions)

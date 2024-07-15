@@ -6,18 +6,20 @@ import { GameUI } from "./game_ui"
 import { Food } from "./food"
 import { GameObject } from "../types"
 import { GameLevel, GameOptions } from "../types"
+import { SnakeOpponent } from "./opponent"
 
 export class GameScreen extends GameObject {
   public size: Vector2 = new Vector2(21, 21)
+  public opponentCount = 0
 
   public maxScore = 0
 
-  public snake = new Snake(this, this.screen)
-  public food = new Food(this, this.screen, this.snake)
+  public snakes: Snake[] = [new Snake(this, this.screen)]
+  public food: Food = new Food(this, this.screen, this.snakes)
 
   public scenes = [
     new World(this, this.screen),
-    this.snake,
+    ...this.snakes,
     this.food,
     new GameUI(this, this.screen),
   ]
@@ -40,6 +42,11 @@ export class GameScreen extends GameObject {
     if (options?.size) {
       this.size = options.size
     }
+    if (options?.opponentCount) {
+      this.opponentCount = options.opponentCount
+    }
+
+    this.createOpponents()
   }
 
   get height() {
@@ -48,6 +55,34 @@ export class GameScreen extends GameObject {
 
   get width() {
     return Math.min(this.screen.cols, this.size.x + 2)
+  }
+
+  private createOpponents() {
+    for (let i = 1; i < this.opponentCount; i++) {
+      let startPos: Vector2
+      let dir: Vector2
+      switch (i) {
+        case 1:
+          startPos = new Vector2(this.width - 2, 1)
+          dir = Vector2.DOWN
+          break
+        case 2:
+          startPos = new Vector2(this.width - 2, this.height - 2)
+          dir = Vector2.LEFT
+          break
+        case 3:
+          startPos = new Vector2(1, this.height - 2)
+          dir = Vector2.UP
+          break
+        default:
+          startPos = new Vector2(1, 1)
+          dir = Vector2.RIGHT
+      }
+      const snake = new SnakeOpponent(this, this.screen, startPos)
+      snake.changeDirection(dir)
+      this.snakes.push(snake)
+      this.scenes.push(snake)
+    }
   }
 
   public ready() {

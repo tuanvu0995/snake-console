@@ -5,16 +5,22 @@ import { Screen } from "../screen"
 import { emitter } from "../setup"
 import Vector2 from "../vector2"
 import { KEY_MAP } from "../constants"
+import { randomInt } from "crypto"
 
 export class Snake extends GameObject {
+  public id: string = randomInt(1000).toString() + Date.now()
   public body: Vector2[] = []
   public direction: Vector2 = Vector2.RIGHT
 
-  private frameCount = 0
+  public color = chalk.bgBlack.white
+
+  protected isDead = false
+
+  protected frameCount = 0
 
   constructor(
-    private game: GameScreen,
-    private screen: Screen
+    protected game: GameScreen,
+    protected screen: Screen
   ) {
     super()
   }
@@ -48,6 +54,8 @@ export class Snake extends GameObject {
   }
 
   public update(): void {
+    if (this.isDead) return
+
     if (this.game.score >= this.game.maxScore) {
       this.game.isWin = true
       this.game.isStarted = false
@@ -57,8 +65,8 @@ export class Snake extends GameObject {
     this.frameCount++
     if (this.frameCount < this.game.moveSpeed) return
 
-    if (this.isCollideWithSelf() || this.isCollideWithWall()) {
-      this.game.gameOver()
+    if (this.isCollideWithOthers() || this.isCollideWithWall()) {
+      this.dead()
       return
     }
 
@@ -70,14 +78,23 @@ export class Snake extends GameObject {
     this.frameCount = 0
   }
 
-  private move() {
+  protected move() {
     const newHead = new Vector2(this.head.x, this.head.y)
     newHead.move(this.direction.x, this.direction.y)
     this.body.push(newHead)
     this.body.shift()
   }
 
-  private changeDirection(direction: Vector2) {
+  protected dead() {
+    this.isDead = true
+    this.game.gameOver()
+  }
+
+  public collidesWith(pos: Vector2) {
+    return this.body.some((b) => b.collides(pos))
+  }
+
+  public changeDirection(direction: Vector2) {
     // the snake can't move back
     if (
       this.direction.x === -1 * direction.x &&
@@ -90,50 +107,45 @@ export class Snake extends GameObject {
   }
 
   public draw() {
+    if (this.isDead || !this.game.isStarted) return
+
     for (let i = 0; i < this.body.length; i++) {
       const pos = this.body[i]
-      let point = chalk.black("  ")
-
       this.screen
         .cursorTo(pos.x * 2, pos.y)
-        .draw(point)
+        .draw(this.color("  "))
         .cursorTo(this.game.width, this.game.height)
     }
   }
 
-  private eatIt() {
+  protected eatIt() {
     this.grow()
     this.game.food.spawn()
   }
 
-  private grow() {
+  protected grow() {
     this.game.increaseScore()
     const newHead = new Vector2(this.head.x, this.head.y)
     this.body.push(newHead)
   }
 
-  private isCollideWithFood() {
-    const forward = this.head.forward(this.direction)
-    return forward.collides(this.game.food.position)
+  protected isCollideWithFood(): boolean {
+    return this.head.collides(this.game.food.position)
   }
 
-  private isCollideWithSelf() {
-    const forward = this.head.forward(this.direction)
-    for (let i = this.body.length - 2; i >= 0; i--) {
-      if (forward.collides(this.body[i])) {
-        return true
-      }
-    }
-    return false
+  protected isCollideWithOthers(forward?: Vector2): boolean {
+    const _forward = forward ? forward : this.head.forward(this.direction)
+    const snakes = this.game.snakes.filter((s) => s.id !== this.id && !s.isDead)
+    return snakes.some((snake) => snake.collidesWith(_forward))
   }
 
-  private isCollideWithWall() {
-    const forward = this.head.forward(this.direction)
+  protected isCollideWithWall(forward?: Vector2): boolean {
+    const _forward = forward ? forward : this.head.forward(this.direction)
     return (
-      forward.x === 0 ||
-      forward.x === this.game.width - 1 ||
-      forward.y === 0 ||
-      forward.y === this.game.height - 1
+      _forward.x === 0 ||
+      _forward.x === this.game.width - 1 ||
+      _forward.y === 0 ||
+      _forward.y === this.game.height - 1
     )
   }
 

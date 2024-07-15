@@ -16,6 +16,6 @@ export const MAP_SIZE = {
 };
 
 export const SCREEN_SIZE = {
-  width: 30,
+  width: 32,
   height: 12,
 }

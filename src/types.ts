@@ -5,6 +5,7 @@ export type GameLevel = "easy" | "normal" | "hard" | "super" | "ghost"
 export type GameOptions = {
   size: Vector2
   level: GameLevel
+  opponentCount?: number
 }
 
 /*
@@ -28,4 +29,9 @@ export abstract class GameObject {
    * This method is called when the game object is destroyed.
    */
   public abstract destroy(): void
+}
+
+export type PathNode = {
+  pos: Vector2
+  parent: PathNode | null
 }

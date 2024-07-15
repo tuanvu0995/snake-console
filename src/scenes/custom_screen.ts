@@ -55,7 +55,7 @@ export class CustomScreen implements GameObject {
         size: newSize,
       })
 
-      emitter.emit("changeScene", "game")
+      emitter.emit("changeScene", "opponent")
     }
 
     // acept only number and x

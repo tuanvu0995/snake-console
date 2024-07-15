@@ -29,7 +29,7 @@ npm i -g snake-console
 - Use arrow keys to control the snake
 - Eat the food to grow the snake
 - Avoid hitting the wall or the snake itself
-
+- You can play with multiple snakes in the selection menu
 
 ## Development
 
@@ -42,8 +42,16 @@ npm run dev
 ## Gallery
 
 <img src="./img/demo.gif" width="400px">
-<img src="./img/bot.gif" width="400px">
+
+1 Snake
+
 <img src="./img/2-snakes.gif" width="400px">
+
+2 Snakes
+
+<img src="./img/bot.gif" width="400px">
+
+Bot
 
 The game will automatically restart when you make changes to the code.
 

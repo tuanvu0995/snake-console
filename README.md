@@ -18,6 +18,7 @@ npm run start
 ## Installation
 
 Note: Currently, the game is not published to npm. You can run it by cloning the repository and running the game as mentioned above.
+
 ```bash
 npm i -g snake-console
 ```
@@ -35,21 +36,20 @@ npm i -g snake-console
 
 Run the following command to start the development server
 
-## Issues
-
-- The game is not optimized, so the game may not work well in some terminals.
-- Performance will be slow if you play with multiple snakes or higher scores.
-
 ```bash
 npm run dev
 ```
+
+## Issues
+
+- The game is not optimized, so the game may not work well in some terminals.
+
 
 ## Gallery
 
 1 Snake
 
 <img src="./img/demo.gif" width="400px">
-
 
 2 Snakes
 
@@ -59,6 +59,6 @@ Bot
 
 <img src="./img/bot.gif" width="400px">
 
-
 ## License
+
 MIT

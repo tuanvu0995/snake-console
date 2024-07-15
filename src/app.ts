@@ -69,7 +69,7 @@ function main() {
   loop();
 
   process.on("exit", () => {
-    // screen.clear();
+    screen.clear();
     process.stdin.setRawMode(false);
   });
 }

@@ -35,6 +35,11 @@ npm i -g snake-console
 
 Run the following command to start the development server
 
+## Issues
+
+- The game is not optimized, so the game may not work well in some terminals.
+- Performance will be slow if you play with multiple snakes or higher scores.
+
 ```bash
 npm run dev
 ```

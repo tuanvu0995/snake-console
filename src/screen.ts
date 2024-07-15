@@ -1,4 +1,6 @@
 export class Screen {
+  private buffer: string = ""
+
   get rows() {
     return process.stdout.rows
   }
@@ -8,17 +10,23 @@ export class Screen {
   }
 
   clear() {
-    process.stdout.write("\x1Bc")
+    this.buffer += "\x1Bc"
     return this
   }
 
   draw(text: string) {
-    process.stdout.write(text)
+    this.buffer += text
     return this
   }
 
   cursorTo(x: number, y: number) {
-    process.stdout.cursorTo(x, y)
+    this.buffer += `\x1B[${y + 1};${x + 1}H`
+    return this
+  }
+
+  flush() {
+    process.stdout.write(this.buffer)
+    this.buffer = "" // Reset buffer after flushing
     return this
   }
 }

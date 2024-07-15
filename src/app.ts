@@ -74,8 +74,9 @@ function main() {
       currentScene.update(deltaTime)
       screen.clear()
       currentScene.draw(deltaTime)
-    }
 
+      screen.flush()
+    }
     setTimeout(loop, FRAME_DURATION - (Date.now() - now))
   }
 

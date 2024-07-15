@@ -33,14 +33,21 @@ export class Food extends GameObject {
 
   public spawn() {
     // spawn food in random position and make sure it's not on the snake
-    let pos: Vector2
-    do {
-      pos = new Vector2(
-        Math.max(Math.floor(Math.random() * this.game.width - 1), 1),
-        Math.max(Math.floor(Math.random() * this.game.height - 1), 1)
-      )
-    } while (this.snake.body.some((b) => b.collides(pos)))
+    const emptyPositions = this.getEmtpyPositions()
+    const randomIndex = Math.floor(Math.random() * emptyPositions.length)
+    this.position = emptyPositions[randomIndex]
+  }
 
-    this.position = pos
+  private getEmtpyPositions(): Vector2[] {
+    const positions: Vector2[] = []
+    for (let x = 1; x < this.game.width - 1; x++) {
+      for (let y = 1; y < this.game.height - 1; y++) {
+        const vec = new Vector2(x, y)
+        if (!this.snake.body.some((b) => b.collides(vec))) {
+          positions.push(vec)
+        }
+      }
+    }
+    return positions
   }
 }

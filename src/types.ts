@@ -19,11 +19,11 @@ export abstract class GameObject {
   /**
    * This method is called every frame to update any logic in the game object.
    */
-  public abstract update(): void
+  public abstract update(deltaTime?: number): void
   /**
    * This method is called every frame to draw the game object.
    */
-  public abstract draw(): void
+  public abstract draw(deltaTime?: number): void
   /**
    * This method is called when the game object is destroyed.
    */

@@ -41,17 +41,19 @@ npm run dev
 
 ## Gallery
 
-<img src="./img/demo.gif" width="400px">
-
 1 Snake
 
-<img src="./img/2-snakes.gif" width="400px">
+<img src="./img/demo.gif" width="400px">
+
 
 2 Snakes
 
-<img src="./img/bot.gif" width="400px">
+<img src="./img/2-snakes.gif" width="400px">
 
 Bot
+
+<img src="./img/bot.gif" width="400px">
+
 
 The game will automatically restart when you make changes to the code.
 

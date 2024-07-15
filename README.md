@@ -55,7 +55,5 @@ Bot
 <img src="./img/bot.gif" width="400px">
 
 
-The game will automatically restart when you make changes to the code.
-
 ## License
 MIT

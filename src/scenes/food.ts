@@ -38,7 +38,6 @@ export class Food extends GameObject {
 
   public spawn() {
     const emptyPositions = this.getEmptyPositions()
-    if (emptyPositions.length === 0) return
     // spawn food in random position and make sure it's not on the snake
     const randomIndex = Math.floor(Math.random() * emptyPositions.length)
     this.position = emptyPositions[randomIndex]
@@ -49,10 +48,15 @@ export class Food extends GameObject {
     for (let x = 1; x < this.game.width - 1; x++) {
       for (let y = 1; y < this.game.height - 1; y++) {
         const vec = new Vector2(x, y)
+        let isEmpty = true
         for (const snake of this.game.snakes) {
-          if (!snake.collidesWith(vec)) {
-            positions.push(vec)
+          if (snake.collidesWith(vec)) {
+            isEmpty = false
+            break
           }
+        }
+        if (isEmpty) {
+          positions.push(vec)
         }
       }
     }

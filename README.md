@@ -42,7 +42,7 @@ npm run dev
 
 ## Issues
 
-- The game is not optimized, so the game may not work well in some terminals.
+- The game is not optimized, so the game may not work well in some terminals. Works best in the VSCode terminal.
 
 
 ## Gallery

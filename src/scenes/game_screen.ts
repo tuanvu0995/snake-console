@@ -58,7 +58,8 @@ export class GameScreen extends GameObject {
   }
 
   private createOpponents() {
-    for (let i = 1; i <= this.opponentCount - 1; i++) {
+    if (!this.opponentCount) return
+    for (let i = 1; i <= this.opponentCount; i++) {
       let startPos: SnakeStartPos
       let dir: Vector2
       switch (i) {

@@ -8,7 +8,7 @@ export class OpponentScreen extends GameObject {
   private width = SCREEN_SIZE.width
   private height = SCREEN_SIZE.height
 
-  private options = [1, 2, 3, 4, "Back"]
+  private options = [0, 1, 2, 3, "Back"]
   private selected = 0
 
   constructor(private screen: Screen) {
@@ -60,7 +60,7 @@ export class OpponentScreen extends GameObject {
 
     this.screen
       .cursorTo(2, 1)
-      .draw(chalk.bgWhiteBright.black("Select Number of Snake"))
+      .draw(chalk.bgWhiteBright.black("Select Opponents"))
 
     for (let i = 0; i < this.options.length; i++) {
       const level = this.options[i]
@@ -68,7 +68,10 @@ export class OpponentScreen extends GameObject {
         i === this.selected ? chalk.bgBlueBright.black : chalk.bgWhiteBright
       this.screen
         .cursorTo(2, 3 + i)
-        .draw(color(level) + color(" ").repeat(this.width / 2))
+        .draw(
+          color(level === 0 ? "None" : level) +
+            color(" ").repeat(this.width / 2)
+        )
     }
   }
 }
